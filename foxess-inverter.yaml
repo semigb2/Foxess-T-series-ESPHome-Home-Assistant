@@ -54,9 +54,9 @@ switch:
     
 text_sensor:
   - platform: template
-    name: "T-Series Inverter Mode"
+    name: "Status połączenia UART"
     id: "inverter_mode_text_sensor"
-    icon: mdi:solar-power-variant
+    icon: mdi:lan-connect
 
 sensor:
 - platform: custom
@@ -108,7 +108,7 @@ sensor:
   - name: "Moc produkowana przez falownik"
     id: "generation_power"
     unit_of_measurement: W
-    icon: mdi:lightning-bolt
+    icon: mdi:solar-power-variant
     
   - name: "Moc ładowania"
     id: "loads_power"
@@ -335,7 +335,7 @@ sensor:
     icon: mdi:lightning-bolt
     accuracy_decimals: 1
     
-  - name: "Status połączenia"
+  - name: "T-Series Inverter State"
     id: "inverter_state"
     internal: true
     on_value:
@@ -351,5 +351,5 @@ sensor:
               id(inverter_mode_text_sensor).publish_state("Error");
             }
             else {
-              id(inverter_mode_text_sensor).publish_state("Waiting for response...");
+              id(inverter_mode_text_sensor).publish_state("Czeka na połączenie ...");
             }
