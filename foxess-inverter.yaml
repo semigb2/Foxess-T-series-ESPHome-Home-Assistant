@@ -34,7 +34,7 @@ wifi:
     password: "*****************+"
 
 captive_portal:
-    
+
 uart:
   id: uart_bus
   tx_pin: 3
@@ -83,8 +83,10 @@ sensor:
     foxesssensors->pv1_current, \
     foxesssensors->pv2_voltage, \
     foxesssensors->pv2_current, \
-    
-    
+    foxesssensors->pv3_voltage, \
+    foxesssensors->pv3_current, \
+    foxesssensors->pv4_voltage, \
+    foxesssensors->pv4_current, \
     foxesssensors->boost_temperature, \
     foxesssensors->inverter_temperature, \
     foxesssensors->ambient_temperature, \
@@ -92,7 +94,8 @@ sensor:
     foxesssensors->generation_total, \
     foxesssensors->pv1_power, \
     foxesssensors->pv2_power, \
-
+    foxesssensors->pv3_power, \
+    foxesssensors->pv4_power, \
     foxesssensors->inverter_state\
     };
 
@@ -107,7 +110,7 @@ sensor:
     unit_of_measurement: W
     icon: mdi:lightning-bolt
     
-  - name: "T-Series loads Power"
+  - name: "Moc ładowania"
     id: "loads_power"
     unit_of_measurement: W
     icon: mdi:lightning-bolt
@@ -240,14 +243,51 @@ sensor:
     filters:
     - multiply: 0.1
     
-      
+  - name: "PV3 Napięcie" #only relevant for models T8dual-T12dual and T15-T25
+    id: "pv3_voltage"
+    unit_of_measurement: V
+    accuracy_decimals: 1
+    icon: mdi:flash
+    filters:
+    - multiply: 0.1
+    
+  - name: "PV3 Prąd" #only relevant for models T8dual-T12dual and T15-T25
+    id: "pv3_current"
+    unit_of_measurement: A
+    accuracy_decimals: 1
+    icon: mdi:current-ac
+    filters:
+    - multiply: 0.1
+    
+  - name: "PV4 Napięcie" #only relevant for models T8dual-T12dual and T15-T25
+    id: "pv4_voltage"
+    unit_of_measurement: V
+    accuracy_decimals: 1
+    icon: mdi:flash
+    filters:
+    - multiply: 0.1
+    
+  - name: "PV4 Prąd" #only relevant for models T8dual-T12dual and T15-T25
+    id: "pv4_current"
+    unit_of_measurement: A
+    accuracy_decimals: 1
+    icon: mdi:current-ac
+    filters:
+    - multiply: 0.1
+    
+  - name: "Temperatura Falownika boost" #boost temperature and inverter temperature seem to be always the same
+    id: "boost_temperature"
+    unit_of_measurement: °C
+    filters:
+    - throttle: 10min
+    
   - name: "Temperatura Falownika" #boost temperature and inverter temperature seem to be always the same
     id: "inverter_temperature"
     unit_of_measurement: °C
     filters:
     - throttle: 10min
     
-  - name: "Temperatura Otoczenia"
+  - name: "Temperatura otoczenia Falownika"
     id: "ambient_temperature"
     unit_of_measurement: °C
     filters:
@@ -283,9 +323,19 @@ sensor:
     icon: mdi:lightning-bolt
     accuracy_decimals: 1
     
-
+  - name: "PV3 Moc" #rs485 comm says this is always 0W, so this is calculated in the .h file by voltage*current
+    id: "pv3_power"
+    unit_of_measurement: W
+    icon: mdi:lightning-bolt
+    accuracy_decimals: 1
     
-  - name: "T-Series Inverter State"
+  - name: "PV4 Moc" #rs485 comm says this is always 0W, so this is calculated in the .h file by voltage*current
+    id: "pv4_power"
+    unit_of_measurement: W
+    icon: mdi:lightning-bolt
+    accuracy_decimals: 1
+    
+  - name: "Status połączenia"
     id: "inverter_state"
     internal: true
     on_value:
